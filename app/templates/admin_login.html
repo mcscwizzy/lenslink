@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Admin · LensLink{% endblock %}
+{% block content %}
+<main class="auth-shell">
+  <form class="panel auth-card" method="post" action="/admin/login">
+    <div class="brand-inline"><span class="brand-mark small">L</span><strong>LensLink</strong></div>
+    <h1>Admin</h1>
+    <p class="muted">This page is available only from an allowed private network.</p>
+    {% if error %}<div class="alert">{{ error }}</div>{% endif %}
+    <label>Username<input name="username" autocomplete="username" required></label>
+    <label>Password<input name="password" type="password" autocomplete="current-password" required></label>
+    <button class="button primary" type="submit">Sign in</button>
+  </form>
+</main>
+{% endblock %}

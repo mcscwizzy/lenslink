@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}{{ album_name }} · LensLink{% endblock %}
+{% block body_class %}gallery-page{% endblock %}
+{% block content %}
+<header class="gallery-header">
+  <div><div class="brand-inline gallery-brand"><span class="brand-mark small">L</span><strong>LensLink</strong></div><h1>{{ album_name }}</h1><p>{{ images|length }} photos</p></div>
+  {% if allow_download_all %}<a class="button primary" href="/g/{{ token }}/download-all">Download all ↓</a>{% endif %}
+</header>
+<main class="gallery-grid" id="gallery">
+{% for image in images %}
+  <button class="thumb" data-index="{{ loop.index0 }}" aria-label="Open {{ image.name }}">
+    <img loading="lazy" src="/g/{{ token }}/preview/{{ image.encoded }}?w=720" alt="{{ image.name }}">
+  </button>
+{% endfor %}
+</main>
+<div class="lightbox" id="lightbox" hidden aria-hidden="true">
+  <button class="lb-close" id="lb-close" aria-label="Close">×</button>
+  <button class="lb-nav lb-prev" id="lb-prev" aria-label="Previous">‹</button>
+  <div class="lb-stage"><img id="lb-image" alt=""><div class="lb-meta"><span id="lb-count"></span>{% if allow_individual_download %}<a id="lb-download" class="button ghost" download>Download ↓</a>{% endif %}</div></div>
+  <button class="lb-nav lb-next" id="lb-next" aria-label="Next">›</button>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+window.LENSLINK = {
+ token: {{ token|tojson }},
+ allowDownload: {{ allow_individual_download|tojson }},
+ images: {{ images|tojson }}
+};
+</script>
+<script src="/static/gallery.js"></script>
+{% endblock %}

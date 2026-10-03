@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}{{ album_name }} · LensLink{% endblock %}
+{% block content %}
+<main class="auth-shell">
+  <form class="panel auth-card" method="post" action="/g/{{ token }}/unlock">
+    <div class="brand-inline"><span class="brand-mark small">L</span><strong>LensLink</strong></div>
+    <h1>{{ album_name }}</h1><p class="muted">This gallery is protected by a PIN.</p>
+    {% if error %}<div class="alert">{{ error }}</div>{% endif %}
+    <label>Gallery PIN<input name="pin" type="password" inputmode="numeric" autofocus required></label>
+    <button class="button primary">Open gallery</button>
+  </form>
+</main>
+{% endblock %}

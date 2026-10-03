@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Albums · LensLink{% endblock %}
+{% block content %}
+<header class="admin-header">
+  <a href="/admin" class="brand-inline"><span class="brand-mark small">L</span><strong>LensLink</strong></a>
+  <form method="post" action="/admin/logout"><input type="hidden" name="csrf" value="{{ csrf }}"><button class="button ghost">Log out</button></form>
+</header>
+<main class="admin-main">
+  <section class="page-heading"><div><span class="eyebrow">ADMIN</span><h1>Albums</h1><p class="muted">Photo root: <code>{{ photo_root }}</code></p></div></section>
+  <section class="admin-grid">
+    <div class="panel">
+      <h2>Create album</h2>
+      <p class="muted">Point LensLink at an existing folder beneath your read-only photo mount.</p>
+      <form class="stack" method="post" action="/admin/albums">
+        <input type="hidden" name="csrf" value="{{ csrf }}">
+        <label>Album name<input name="name" placeholder="Smith Wedding" required></label>
+        <label>Folder<input name="folder" placeholder="Weddings/Smith-2026" required><small>Relative to the photo root.</small></label>
+        <button class="button primary">Create album</button>
+      </form>
+    </div>
+    <div class="album-list">
+      {% if albums %}
+        {% for album in albums %}
+          <a class="panel album-card" href="/admin/albums/{{ album.id }}">
+            <div><h3>{{ album.name }}</h3><p>{{ album.folder }}</p></div>
+            <div class="album-meta"><span>{{ album.photo_count if album.photo_count is not none else "?" }} photos</span><span>{{ album.active_links or 0 }} active links</span></div>
+          </a>
+        {% endfor %}
+      {% else %}
+        <div class="panel empty"><h3>No albums yet</h3><p class="muted">Create one from a folder already on your NAS.</p></div>
+      {% endif %}
+    </div>
+  </section>
+</main>
+{% endblock %}
